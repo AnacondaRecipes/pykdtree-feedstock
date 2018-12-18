@@ -14,7 +14,7 @@ build:
     - export USE_OMP=1  # [linux]
     - export USE_OMP=0  # [osx]
     - set USE_OMP=0  # [win]
-    - "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
+    - "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv"
 
 requirements:
   build:
