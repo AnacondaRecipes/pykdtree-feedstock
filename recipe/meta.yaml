@@ -23,7 +23,8 @@ requirements:
     - python
     - pip
     - numpy
-    - msinttypes  # [win and py<35]
+    - msinttypes       # [win and py<35]
+    - _openmp_mutex    # [linux and aarch64]
   run:
     - python
     - {{ pin_compatible('numpy') }}
