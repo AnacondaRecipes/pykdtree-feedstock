@@ -35,8 +35,12 @@ requirements:
     - _openmp_mutex    # [linux and aarch64]
 
 test:
+  requires:
+    - pip
   imports:
     - pykdtree
+  commands:
+    - pip check
 
 about:
   home: https://pypi.python.org/pypi/pykdtree
