@@ -22,9 +22,11 @@ requirements:
   host:
     - python
     - pip
-    - numpy
     - setuptools
     - wheel
+    - numpy   1.19  # [py<310]
+    - numpy   1.21  # [py==310]
+    - numpy   1.23  # [py>=311]
     - msinttypes       # [win and py<35]
     - _openmp_mutex    # [linux and aarch64]
   run:
