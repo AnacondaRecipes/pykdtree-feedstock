@@ -23,6 +23,8 @@ requirements:
     - python
     - pip
     - numpy
+    - setuptools
+    - wheel
     - msinttypes       # [win and py<35]
     - _openmp_mutex    # [linux and aarch64]
   run:
