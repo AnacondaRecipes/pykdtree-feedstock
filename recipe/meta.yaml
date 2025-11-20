@@ -1,46 +1,50 @@
 {% set version = "1.4.3" %}
+{% set name = "pykdtree" %}
 
 package:
-  name: pykdtree
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/p/pykdtree/pykdtree-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: d9187930ffb8c822c52595b64948b47346694ee2a49e2702420b58f743d786f5
 
 build:
   number: 0
-  skip: true  # [py<37]
-  script:
-    - export USE_OMP=1  # [linux]
-    - export USE_OMP=0  # [osx]
-    - set USE_OMP=0  # [win]
-    - {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv
-
+  skip: true  # [py<39]
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv
+  script_env:
+    - USE_OMP=1
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
   host:
     - python
     - pip
     - setuptools
-    - numpy >=2.0.0,<3
-    - numpy   1.21  # [py==310]
-    - numpy   1.23  # [py>=311]
-    - _openmp_mutex  # [linux]
+    - numpy {{ numpy }}
     - cython >=3.1
+    # - _openmp_mutex  # [linux]
+    - llvm-openmp  # [osx or win]
+    - libgomp  # [linux]
   run:
     - python
-    - {{ pin_compatible('numpy') }}
-    - _openmp_mutex  # [linux]
+    - numpy
+    - llvm-openmp  # [osx or win]
+    - libgomp  # [linux]
 
 test:
   requires:
     - pip
+    - pytest
+    - mypy
   imports:
     - pykdtree
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest --pyargs pykdtree.test_stub pykdtree.test_tree
 
 about:
   home: https://github.com/storpipfugl/pykdtree
@@ -54,8 +58,6 @@ about:
     pykdtree is a kd-tree implementation for fast nearest neighbour search in Python.
     The aim is to be the fastest implementation around for common use cases
     (low dimensions and low number of neighbours) for both tree construction and queries.
-
-
 
 extra:
   recipe-maintainers:
