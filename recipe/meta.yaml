@@ -12,9 +12,11 @@ source:
 build:
   number: 0
   skip: true  # [py<39]
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv
+  script:
+    - {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv
   script_env:
     - USE_OMP=1
+
 requirements:
   build:
     - {{ stdlib('c') }}
@@ -26,21 +28,21 @@ requirements:
     - numpy {{ numpy }}
     - cython >=3.1
     # - _openmp_mutex  # [linux]
-    - llvm-openmp  # [osx or win]
+    - llvm-openmp  # [osx]
     - libgomp  # [linux]
   run:
     - python
     - numpy
-    - llvm-openmp  # [osx or win]
+    - llvm-openmp  # [osx]
     - libgomp  # [linux]
 
 test:
+  imports:
+    - pykdtree
   requires:
     - pip
     - pytest
     - mypy
-  imports:
-    - pykdtree
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
