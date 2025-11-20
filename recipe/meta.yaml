@@ -26,14 +26,15 @@ requirements:
     - setuptools
     - numpy {{ numpy }}
     - cython >=3.1
-    # - _openmp_mutex  # [linux]
     - llvm-openmp  # [osx]
     - libgomp  # [linux]
+    - _openmp_mutex  # [linux]
   run:
     - python
     - numpy
     - llvm-openmp  # [osx]
     - libgomp  # [linux]
+    - _openmp_mutex  # [linux]
 
 test:
   imports:
