@@ -33,7 +33,7 @@ requirements:
     - python
     - numpy
     - libgomp          # [linux]
-    - llvm-openmp {{ cxx_compiler_version }}  # [osx]
+    - llvm-openmp      # [osx]
     - vcomp14          # [win and x86_64]
 
 test:
