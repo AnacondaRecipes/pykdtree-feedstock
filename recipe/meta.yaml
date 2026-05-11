@@ -9,7 +9,7 @@ source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: d9187930ffb8c822c52595b64948b47346694ee2a49e2702420b58f743d786f5
   patches:
-    - patches/0001-mark-kdtree-stub-as-disjoint-base.patch
+    - patches/0001-ignore-disjoint-base-stubtest-check.patch
 
 build:
   number: 1
