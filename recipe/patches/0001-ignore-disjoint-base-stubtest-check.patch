@@ -1,0 +1,28 @@
+From 70d8c82ec2ed59d1b90b5f55b6f6d4fe922915e2 Mon Sep 17 00:00:00 2001
+From: Eric Lundby <Eric.Lundby@gmail.com>
+Date: Mon, 11 May 2026 15:45:00 -0600
+Subject: [PATCH] Ignore disjoint base check in stubtest
+
+The mypy version used for tests detects Cython extension classes as
+disjoint bases, but its bundled typeshed does not expose a usable
+disjoint_base decorator for package stubs. Disable only that provisional
+PEP 800 check while keeping the rest of upstream's stubtest coverage.
+---
+ pykdtree/test_stub.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pykdtree/test_stub.py b/pykdtree/test_stub.py
+index d96fd9a86da0fb0f416fb10388e2a4a560622827..37cad699777f4bdc5a7086800750e6110f8bd742 100644
+--- a/pykdtree/test_stub.py
++++ b/pykdtree/test_stub.py
+@@ -10,7 +10,7 @@ def test_mypy(capsys: CaptureFixture[str]) -> None:
+     """
+     from mypy import stubtest
+ 
+-    code = stubtest.test_stubs(stubtest.parse_options(["pykdtree.kdtree"]))
++    code = stubtest.test_stubs(stubtest.parse_options(["--ignore-disjoint-bases", "pykdtree.kdtree"]))
+     captured = capsys.readouterr()
+ 
+     assert code == 0, "Mypy stub test failed:\n" + captured.out
+-- 
+2.50.1 (Apple Git-155)

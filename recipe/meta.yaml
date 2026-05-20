@@ -8,9 +8,11 @@ package:
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: d9187930ffb8c822c52595b64948b47346694ee2a49e2702420b58f743d786f5
+  patches:
+    - patches/0001-ignore-disjoint-base-stubtest-check.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv
   script_env:
@@ -26,15 +28,15 @@ requirements:
     - setuptools
     - numpy {{ numpy }}
     - cython >=3.1
-    - llvm-openmp  # [osx]
-    - libgomp  # [linux]
-    - _openmp_mutex  # [linux]
+    - libgomp          # [linux]
+    - llvm-openmp {{ cxx_compiler_version }}  # [osx]
+    - vcomp14          # [win and x86_64]
   run:
     - python
     - numpy
-    - llvm-openmp  # [osx]
-    - libgomp  # [linux]
-    - _openmp_mutex  # [linux]
+    - libgomp          # [linux]
+    - llvm-openmp      # [osx]
+    - vcomp14          # [win and x86_64]
 
 test:
   imports:
